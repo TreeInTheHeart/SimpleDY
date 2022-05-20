@@ -1,0 +1,9 @@
+# 启动端口号
+server:
+  protocol: http
+  port: 8080
+# MySQL数据源配置
+mysql:
+  username: root
+  password: root
+  url: tcp(localhost:3306)/simpledy?charset=utf8mb4&parseTime=True&loc=Local
