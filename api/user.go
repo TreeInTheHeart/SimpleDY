@@ -9,23 +9,24 @@ import (
 )
 
 var userService service.UserService
-func Register(c *gin.Context)  {
+
+func Register(c *gin.Context) {
 	var param pojo.UserRegisterParam
 	err := c.ShouldBind(&param)
 	if err != nil {
-		c.JSON(http.StatusOK,pojo.UserRegisterResponse{
+		c.JSON(http.StatusOK, pojo.UserRegisterResponse{
 			Response: pojo.Response{
 				Code: status.RequestParamError,
-				Msg: status.Msg(status.RequestParamError),
+				Msg:  status.Msg(status.RequestParamError),
 			},
 		})
 		return
 	}
 	//注册
-	ok,userId := userService.Register(param)
-	if ok{
-		c.JSON(http.StatusOK,userId)
-	}else{
-		c.JSON(http.StatusOK,"注册失败")
+	ok, userId := userService.Register(param)
+	if ok {
+		c.JSON(http.StatusOK, userId)
+	} else {
+		c.JSON(http.StatusOK, "注册失败")
 	}
 }

@@ -3,8 +3,8 @@ package pojo
 //User数据库映射
 type User struct {
 	Id            uint64 `gorm:"column:id;autoIncrement;primaryKey"`
-	Name          string `gorm:"column:name"`
-	Username      string `gorm:"column:username"`
+	Name          string `gorm:"column:name"`     //用户昵称
+	Username      string `gorm:"column:username"` //用户名
 	Password      string `gorm:"column:password"`
 	FollowCount   uint64 `gorm:"column:follow_count"`
 	FollowerCount uint64 `gorm:"column:follower_count"`
@@ -15,7 +15,7 @@ type User struct {
 type UserRegisterParam struct {
 	Username string `form:"username" json:"username"`
 	Password string `form:"password" json:"password"`
-	Name string  `form:"name" json:"name"`
+	Name     string `form:"name" json:"name"`
 }
 
 //注册返回信息
@@ -29,4 +29,3 @@ type UserLoginParam struct {
 	Username string `form:"username" json:"username"`
 	Password string `form:"password" json:"password"`
 }
-
