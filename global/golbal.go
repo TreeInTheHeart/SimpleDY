@@ -5,8 +5,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var(
+var (
 	Config config.Config
-	Db *gorm.DB
+	Db     *gorm.DB
 )
-
