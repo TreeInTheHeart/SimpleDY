@@ -5,8 +5,9 @@ import (
 	"SimpleDY/initial"
 )
 
-func main()  {
+func main() {
 	initial.LoadConfig()
 	initial.Mysql()
 	handler.Handler()
+
 }
