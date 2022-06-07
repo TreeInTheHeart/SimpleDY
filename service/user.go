@@ -49,3 +49,10 @@ func (userservice UserService) Login(param pojo.UserLoginParam) (*pojo.User, uin
 	}
 	return &user, status.Success
 }
+
+//GetInfoByUserId
+func (userservice UserService) GetInfoByUserId(userid uint64) *pojo.User {
+	var user pojo.User
+	global.Db.Model(&pojo.User{}).Where("id = ?", userid).First(&user)
+	return &user
+}
