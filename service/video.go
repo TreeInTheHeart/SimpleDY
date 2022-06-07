@@ -19,11 +19,12 @@ param :
 */
 func (videoservice VideoService) AddFavoriteCount(param pojo.FavoritaParam) error {
 	global.Db.Model(&pojo.Video{})
+	return nil
 }
 
 //减少点赞者数量
 func (videoservice VideoService) ReduceFavoriteCount() error {
-
+	return nil
 }
 
 //修改点赞者数量 根据redis

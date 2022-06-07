@@ -9,6 +9,8 @@ type FavoritaParam struct {
 }
 
 //user_like_video表
-//存储用户点赞视频的相关信息 提升性能可以redis实现
+//存储用户点赞视频的纪律 提升性能可以redis实现
 type UserLikeVideo struct {
+	UserID  uint64 `gorm:"user_id"`
+	VideoID int64  `gorm:"video_id"`
 }
