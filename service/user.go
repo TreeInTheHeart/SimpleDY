@@ -11,19 +11,19 @@ type UserService struct {
 
 //Register
 /**
-param:用户注册信息包括用户名，密码，昵称
+param:用户名 密码 string
 response:注册结果，用户id,错误码
 */
-func (userservice UserService) Register(param pojo.UserRegisterParam) (bool, uint64, int) {
+func (userservice UserService) Register(username, password string) (bool, uint64, int) {
 	var count int64
-	global.Db.Model(&pojo.User{}).Where("username = ?", param.Username).Count(&count)
+	global.Db.Model(&pojo.User{}).Where("username = ?", username).Count(&count)
 	if count > 0 {
 		return false, 0, status.UsernameHasExistedError
 	}
 	user := pojo.User{
-		Name:     param.Name,
-		Username: param.Username,
-		Password: param.Password,
+		Name:     "",
+		Username: username,
+		Password: password,
 	}
 	if global.Db.Create(&user).RowsAffected == 1 {
 		return true, user.Id, 0
@@ -33,24 +33,28 @@ func (userservice UserService) Register(param pojo.UserRegisterParam) (bool, uin
 
 //Login
 /**
-param
-response
+param 用户名 密码
+response 登陆用户id 错误码
 */
-func (userservice UserService) Login(param pojo.UserLoginParam) (*pojo.User, uint64) {
+func (userservice UserService) Login(username, password string) (uint64, uint64) {
 	var user pojo.User
 	var count int64
-	global.Db.Model(&pojo.User{}).Where("username = ?", param.Username).Find(&user).Count(&count)
+	global.Db.Model(&pojo.User{}).Where("username = ?", username).Find(&user).Count(&count)
 	if count == 0 {
-		return nil, status.UserNotExistOrPasswordWrongError
+		return 0, status.UserNotExistOrPasswordWrongError
 	}
 
-	if user.Password != param.Password {
-		return nil, status.UserNotExistOrPasswordWrongError
+	if user.Password != password {
+		return 0, status.UserNotExistOrPasswordWrongError
 	}
-	return &user, status.Success
+	return user.Id, status.Success
 }
 
 //GetInfoByUserId
+/*
+param 用户id
+
+*/
 func (userservice UserService) GetInfoByUserId(userid uint64) *pojo.User {
 	var user pojo.User
 	global.Db.Model(&pojo.User{}).Where("id = ?", userid).First(&user)

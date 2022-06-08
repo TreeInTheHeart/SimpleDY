@@ -29,3 +29,9 @@ type GetUserInfoResponse struct {
 	StatusMsg  string `json:"status_msg"`  // 返回状态描述
 	UserInfo
 }
+
+//登录用户选择视频上传返回信息
+type PublishResponse struct {
+	StatusCode int64  `json:"status_code"`
+	StatusMsg  string `json:"status_msg"`
+}

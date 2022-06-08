@@ -5,6 +5,9 @@ import (
 	"SimpleDY/pojo"
 	"SimpleDY/service"
 	"SimpleDY/status"
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -25,8 +28,14 @@ func Register(c *gin.Context) {
 		})
 	}
 
+	//密码加盐
+
+	md5Ctx := md5.New()
+	md5Ctx.Write([]byte(param.Password))
+	pw := hex.EncodeToString(md5Ctx.Sum(nil))
+
 	//注册
-	ok, userId, errCode := userService.Register(param)
+	ok, userId, errCode := userService.Register(param.Username, pw)
 
 	if ok { //注册成功
 
@@ -71,10 +80,15 @@ func Login(c *gin.Context) {
 			UserID:     0,
 		})
 	}
-	user, code := userService.Login(param)
-	if user != nil {
+	md5Ctx := md5.New()
+	md5Ctx.Write([]byte(param.Password))
+	pw := hex.EncodeToString(md5Ctx.Sum(nil))
+
+	fmt.Println(pw)
+	userID, code := userService.Login(param.Username, pw)
+	if userID != 0 {
 		//生成token
-		token, err := middleware.GenerateTokenString(user.Id, param.Username)
+		token, err := middleware.GenerateTokenString(userID, param.Username)
 		if err != nil {
 			c.JSON(http.StatusOK, pojo.UserLoginResponse{
 				StatusCode: status.GenerateTokenError,
@@ -87,7 +101,7 @@ func Login(c *gin.Context) {
 				StatusCode: int64(code),
 				StatusMsg:  status.Msg(0),
 				Token:      token,
-				UserID:     int64(user.Id),
+				UserID:     int64(userID),
 			})
 		}
 	} else {

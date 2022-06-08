@@ -21,5 +21,9 @@ func Mysql() {
 		fmt.Fprintf(os.Stderr, "AutoMigrate err: %v\n", err)
 		os.Exit(1)
 	}
+	if err := db.AutoMigrate(&pojo.Video{}); err != nil {
+		fmt.Fprintf(os.Stderr, "AutoMigrate err: %v\n", err)
+		os.Exit(1)
+	}
 	global.Db = db
 }

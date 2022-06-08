@@ -6,6 +6,8 @@ import (
 )
 
 var (
-	Config config.Config
-	Db     *gorm.DB
+	Config         config.Config
+	Db             *gorm.DB
+	VideoLibPath   string = "./data/video/"
+	VideoCoverPath string = "./data/cover/"
 )
