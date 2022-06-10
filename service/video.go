@@ -4,6 +4,7 @@ import (
 	"SimpleDY/global"
 	"SimpleDY/pojo"
 	"SimpleDY/status"
+	"time"
 )
 
 type VideoService struct {
@@ -43,6 +44,7 @@ func (videoservice VideoService) AddVideo(videoPath, coverPath, title string, au
 		CommentCount:  0,
 		Title:         title,
 		Status:        0,
+		CreatedAt:     time.Now(),
 	}
 	if global.Db.Create(&video).RowsAffected == 1 {
 		return 0
