@@ -19,13 +19,21 @@ param :
 	Type    uint   `json:"action_type"`
 */
 
-/*查询上传视频id*/
+// GetNextId
+/*为了确保用户上传的视频在本地存储时是唯一文件名，将文件名存储为 "id.mp3"格式
+查询待上传视频id
+*/
 func (videoservice VideoService) GetNextId() uint64 {
 	var count int64
 	global.Db.Model(&pojo.Video{}).Count(&count)
 	return uint64(count) + 1
 }
 
+// AddVideo
+/*上传视频
+param 视频路径 封面路径 标题 作者id
+response 错误码
+*/
 func (videoservice VideoService) AddVideo(videoPath, coverPath, title string, authorId uint64) int64 {
 	video := pojo.Video{
 		AuthorId:      authorId,
@@ -40,6 +48,15 @@ func (videoservice VideoService) AddVideo(videoPath, coverPath, title string, au
 		return 0
 	}
 	return status.UnknownError
+}
+
+//GetVideoListByAuthorId
+/*通过作者id查询发布的视频列表
+ */
+func (videoservice VideoService) GetVideoListByAuthorId(authorId uint64) *pojo.VideoList {
+	var videolist pojo.VideoList
+	global.Db.Model(&pojo.Video{}).Where("authorId = ?", authorId).Find(&videolist)
+	return &videolist
 }
 
 func (videoservice VideoService) AddFavoriteCount(param pojo.FavoritaParam) error {

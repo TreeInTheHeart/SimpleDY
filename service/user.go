@@ -53,7 +53,7 @@ func (userservice UserService) Login(username, password string) (uint64, uint64)
 //GetInfoByUserId
 /*
 param 用户id
-
+response 用户结构体
 */
 func (userservice UserService) GetInfoByUserId(userid uint64) *pojo.User {
 	var user pojo.User

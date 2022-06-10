@@ -12,8 +12,9 @@ func Handler() {
 	//authMiddleware := r.Group("/publish",middleware.JwtMiddleWare())
 	r.POST("/user/register", api.Register)
 	r.POST("/user/login", api.Login)
-	r.GET("/user", middleware.GetJwtMiddleWare(), api.GetInfo)
+	r.GET("/user/", middleware.GetJwtMiddleWare(), api.GetInfo)
 	//r.POST("favorite/action", api.FavoriteOp)
 	r.POST("/publish/action", middleware.PostJwtMiddleWare(), api.Publish)
+	r.GET("/publish/list/", middleware.GetJwtMiddleWare(), api.GetPublishListByAuthorId)
 	r.Run()
 }
