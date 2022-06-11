@@ -5,5 +5,5 @@ server:
 # MySQL数据源配置
 mysql:
   username: root
-  password: root
+  password: 123456
   url: tcp(localhost:3306)/simpledy?charset=utf8mb4&parseTime=True&loc=Local
