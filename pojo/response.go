@@ -44,6 +44,7 @@ type GetVideoListResponse struct {
 }
 
 // Video
+
 type VideoResponse struct {
 	Author        Author `json:"author"`         // 视频作者信息
 	CommentCount  int64  `json:"comment_count"`  // 视频的评论总数
@@ -64,4 +65,12 @@ type Author struct {
 	ID            int64  `json:"id"`             // 用户id
 	IsFollow      bool   `json:"is_follow"`      // true-已关注，false-未关注
 	Name          string `json:"name"`           // 用户名称
+}
+
+//返回视频流信息
+type FeedResponse struct {
+	NextTime   int64           `json:"next_time"`   // 本次返回的视频中，发布最早的时间，作为下次请求时的latest_time
+	StatusCode int64           `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string          `json:"status_msg"`  // 返回状态描述
+	VideoList  []VideoResponse `json:"video_list"`  // 视频列表
 }

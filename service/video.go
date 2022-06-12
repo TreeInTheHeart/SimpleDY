@@ -44,7 +44,7 @@ func (videoservice VideoService) AddVideo(videoPath, coverPath, title string, au
 		CommentCount:  0,
 		Title:         title,
 		Status:        0,
-		CreatedAt:     time.Now(),
+		CreatedAt:     time.Now().Unix(),
 	}
 	if global.Db.Create(&video).RowsAffected == 1 {
 		return 0
@@ -61,6 +61,17 @@ func (videoservice VideoService) GetVideoListByAuthorId(authorId uint64) *pojo.V
 	return &videolist
 }
 
+// FeedbyTime
+// 返回截止时间Time时间之前的视频流 最多30条
+// param 截止时间
+// response 视频流
+func (VideoService VideoService) FeedbyTime(time int64) *pojo.VideoList {
+	var videolist pojo.VideoList
+	global.Db.Model(&pojo.Video{}).Where("create_time < ?", time).Order("create_time DESC").Limit(3).Find(&videolist)
+	return &videolist
+}
+
+//添加喜欢的数量
 func (videoservice VideoService) AddFavoriteCount(param pojo.FavoritaParam) error {
 	global.Db.Model(&pojo.Video{})
 	return nil
