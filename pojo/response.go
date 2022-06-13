@@ -67,6 +67,25 @@ type Author struct {
 	Name          string `json:"name"`           // 用户名称
 }
 
+type FollowResponse struct {
+	StatusCode int64  `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string `json:"status_msg"`  // 返回状态描述
+}
+
+type ReturnFollower struct {
+	Id            uint   `json:"id"`
+	Name          string `json:"name"`
+	FollowCount   uint   `json:"follow_count"`
+	FollowerCount uint   `json:"follower_count"`
+	IsFollow      bool   `json:"is_follow"`
+}
+
+type FollowingListResponse struct {
+	StatusCode int64            `json:"status_code"` // 状态码，0-成功，其他值-失败
+	StatusMsg  string           `json:"status_msg"`  // 返回状态描述
+	UserList   []ReturnFollower `json:"user_list"`   // 用户列表
+}
+
 //返回视频流信息
 type FeedResponse struct {
 	NextTime   int64           `json:"next_time"`   // 本次返回的视频中，发布最早的时间，作为下次请求时的latest_time

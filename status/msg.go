@@ -12,6 +12,10 @@ var msg = []string{
 	"User Not Exist Or Password Wrong", // 用户名不存在或密码错误
 	"Load File Error",                  // 加载文件出错
 	"Save Up loaded File Error",        // 保存文件出错
+	"Attention already exists",         // 关注已存在
+	"Inability to focus on yourself",   // 无法关注自己
+	"Found list",                       // 找到列表
+	"Not found list",                   // 查找列表失败
 }
 
 func Msg(code int) string {

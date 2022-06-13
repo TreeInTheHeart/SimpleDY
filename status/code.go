@@ -12,7 +12,9 @@ const (
 	UserNotExistOrPasswordWrongError        // 用户名不存在或密码错误
 	LoadFileError                           // 加载文件出错
 	SaveUploadedFileError                   // 保存文件出错
-
+	AttentionExistsError                    // 已经关注错误
+	AttentionNullError                      // 未关注错误
+	InabilityToFocusOnYourself              // 无法关注自己
 )
 
 //

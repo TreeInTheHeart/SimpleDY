@@ -17,5 +17,8 @@ func Handler() {
 	r.POST("/douyin/publish/action/", middleware.PostJwtMiddleWare(), api.Publish)
 	r.GET("/douyin/publish/list/", middleware.GetJwtMiddleWare(), api.GetPublishListByAuthorId)
 	r.GET("/douyin/feed/", api.Feed)
+	//r.POST("/douyin/relation/action/", middleware.GetJwtMiddleWare(), api.RelationAction)
+	r.GET("/douyin/relation/follow/list/", middleware.GetJwtMiddleWare(), api.FollowList)
+	r.GET("/douyin/relation/follower/list/", middleware.GetJwtMiddleWare(), api.FollowerList)
 	r.Run()
 }
