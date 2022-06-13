@@ -49,7 +49,7 @@ func AddFollowerCount(guestId uint64) error {
 
 // DecreaseFollowerCount 减少粉丝数
 func DecreaseFollowerCount(guest uint64) error {
-	err := global.Db.Model(&pojo.User{}).Where("guest_id = ?", guest).
+	err := global.Db.Model(&pojo.User{}).Where("id = ?", guest).
 		Update("follower_count", gorm.Expr("follower_count - ?", 1)).Error
 	if err != nil {
 		return nil
@@ -59,7 +59,7 @@ func DecreaseFollowerCount(guest uint64) error {
 
 // DecreaseFollowCount 减少关注数
 func DecreaseFollowCount(hostId uint64) error {
-	err := global.Db.Model(&pojo.User{}).Where("host_id = ?", hostId).
+	err := global.Db.Model(&pojo.User{}).Where("id = ?", hostId).
 		Update("follow_count", gorm.Expr("follow_count - ?", 1)).Error
 	if err != nil {
 		return nil
@@ -102,8 +102,8 @@ func (followingservice FollowingService) FollowAction(hostId uint64, guestId uin
 	}
 	if actionType == 1 {
 		//判断关注是否存在，避免重复关注
-		if IsFollowing(hostId, guestId) {
-			return status.AttentionExistsError, nil
+		if IsFollowing(hostId, guestId) == true {
+			return status.AttentionExistsError, errors.New("关注已存在")
 		} else {
 			//关注不存在,创建关注
 			errTransaction := global.Db.Transaction(func(db *gorm.DB) error {
@@ -132,7 +132,7 @@ func (followingservice FollowingService) FollowAction(hostId uint64, guestId uin
 	// 取消关注操作
 	if actionType == 2 {
 		//判断关注是否存在
-		if IsFollowing(hostId, guestId) {
+		if IsFollowing(hostId, guestId) == true {
 			//关注存在,取消关注，先删除关注表的记录，再减少关注数和粉丝数
 			errTransaction := global.Db.Transaction(func(db *gorm.DB) error {
 				err1 := DeleteFollowing(&newFollowing)

@@ -46,21 +46,21 @@ func RelationAction(c *gin.Context) {
 	}
 
 	//调用service层
-	_, err := followingService.FollowAction(hostId, guestId, actionType)
+	response, err := followingService.FollowAction(hostId, guestId, actionType)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, pojo.FollowResponse{
-			StatusCode: status.UnknownError,
+			StatusCode: response,
 			StatusMsg:  status.Msg(1),
 		})
 	} else {
 		if actionType == 1 {
-			c.JSON(http.StatusBadRequest, pojo.FollowResponse{
+			c.JSON(http.StatusOK, pojo.FollowResponse{
 				StatusCode: status.Success,
 				StatusMsg:  status.Msg(0),
 			})
 		}
 		if actionType == 2 {
-			c.JSON(http.StatusBadRequest, pojo.FollowResponse{
+			c.JSON(http.StatusOK, pojo.FollowResponse{
 				StatusCode: status.Success,
 				StatusMsg:  status.Msg(0),
 			})
